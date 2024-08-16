@@ -150,6 +150,10 @@ public partial class Mediaplayer : Form
             player.Ctlcontrols.pause();
             btnPlay.Image = Properties.Resources.play;
         }
+        else if (player.playState == WMPLib.WMPPlayState.wmppsReady)
+        {
+            PlaySong(listSongs.SelectedIndex, listSongs.SelectedItem.ToString());
+        }
         else
         {
             player.Ctlcontrols.play();
