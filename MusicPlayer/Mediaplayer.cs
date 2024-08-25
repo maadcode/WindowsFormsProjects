@@ -1,10 +1,8 @@
-using System.Xml.Linq;
-
 namespace MusicPlayer;
 
 public partial class Mediaplayer : Form
 {
-    private List<string> RutasArchivosMp3;
+    private readonly string FolderMusic;
     private CancellationTokenSource cancellationTokenScrollTitle;
     private CancellationTokenSource cancellationTokenProgressSong;
 
@@ -12,8 +10,12 @@ public partial class Mediaplayer : Form
     {
         InitializeComponent();
         player.uiMode = "none";
-        RutasArchivosMp3 = new List<string>();
+        FolderMusic = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Songs");
+        if(!Directory.Exists(FolderMusic))
+            Directory.CreateDirectory(FolderMusic);
+        fileSysWatcher.Path = FolderMusic;
         ResetProgressSong();
+        RefreshSongs();
     }
 
     private void ResetProgressSong()
@@ -22,10 +24,10 @@ public partial class Mediaplayer : Form
         progressSong.Value = 0;
     }
 
-    private void PlaySong(int index, string name)
+    private void PlaySong(string name)
     {
         lblTitleSong.Text = name;
-        player.URL = RutasArchivosMp3[index];
+        player.URL = Path.Combine(FolderMusic, name);
         btnPlay.Image = Properties.Resources.pause;
 
         StartScrollTitle(name);
@@ -113,6 +115,29 @@ public partial class Mediaplayer : Form
         }
     }
 
+    private void AddMusicFile(string filePath)
+    {
+        if (Path.GetExtension(filePath).Equals(".mp3", StringComparison.OrdinalIgnoreCase))
+        {
+            string fileName = Path.GetFileName(filePath);
+            string destFile = Path.Combine(FolderMusic, fileName);
+            if(!File.Exists(destFile))
+                File.Copy(filePath, destFile, overwrite: true);
+        }
+    }
+
+    private void RefreshSongs()
+    {
+        listSongs.Items.Clear();
+        string[] list = Directory.GetFiles(FolderMusic, "*.mp3");
+        foreach (string file in list)
+        {
+            var directories = file.Split('\\');
+            var filename = directories.LastOrDefault();
+            listSongs.Items.Add(filename + Environment.NewLine);
+        }
+    }
+
     private void btnAdjuntar_Click(object sender, EventArgs e)
     {
         try
@@ -121,13 +146,13 @@ public partial class Mediaplayer : Form
             ofd.Multiselect = true;
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-                RutasArchivosMp3.AddRange(ofd.FileNames);
-                listSongs.Items.AddRange(ofd.SafeFileNames);
-
-                if (player.playState == WMPLib.WMPPlayState.wmppsReady || player.playState == WMPLib.WMPPlayState.wmppsUndefined)
+                foreach (string filePath in ofd.FileNames)
+                    AddMusicFile(filePath);
+                
+                RefreshSongs();
+                if (listSongs.Items.Count > 0)
                     listSongs.SelectedIndex = 0;
             }
-            MessageBox.Show($"Se agregaron {listSongs.Items.Count} las canciones con éxito");
         }
         catch (Exception)
         {
@@ -140,11 +165,18 @@ public partial class Mediaplayer : Form
         if (player.playState == WMPLib.WMPPlayState.wmppsPlaying)
             StopSong();
 
-        PlaySong(listSongs.SelectedIndex, listSongs.SelectedItem.ToString());
+        if(listSongs.SelectedItem != null)
+            PlaySong(listSongs.SelectedItem.ToString());
     }
 
     private void btnPlay_Click(object sender, EventArgs e)
     {
+        if(listSongs.SelectedItem == null)
+        {
+            MessageBox.Show("No hay canción seleccionada");
+            return;
+        }
+
         if (player.playState == WMPLib.WMPPlayState.wmppsPlaying)
         {
             player.Ctlcontrols.pause();
@@ -152,7 +184,7 @@ public partial class Mediaplayer : Form
         }
         else if (player.playState == WMPLib.WMPPlayState.wmppsReady)
         {
-            PlaySong(listSongs.SelectedIndex, listSongs.SelectedItem.ToString());
+            PlaySong(listSongs.SelectedItem.ToString());
         }
         else
         {
@@ -191,5 +223,39 @@ public partial class Mediaplayer : Form
             listSongs.SelectedIndex++;
         else
             MessageBox.Show("No hay canciones más abajo.");
+    }
+
+    private void fileSysWatcher_Changed(object sender, FileSystemEventArgs e)
+    {
+        if (player.URL == e.FullPath)
+        {
+            StopSong();
+            RefreshSongs();
+            listSongs.SelectedIndex = -1;
+        } else if (listSongs.Items.Contains(e.Name))
+        {
+            listSongs.Items.Remove(e.Name);
+            listSongs.Items.Add(e.Name);
+        }
+    }
+
+    private void fileSysWatcher_Created(object sender, FileSystemEventArgs e)
+    {
+        if (!listSongs.Items.Contains(e.Name))
+            listSongs.Items.Add(e.Name);
+    }
+
+    private void fileSysWatcher_Deleted(object sender, FileSystemEventArgs e)
+    {
+        if(player.URL == e.FullPath)
+        {
+            StopSong();
+            RefreshSongs();
+            listSongs.SelectedIndex = -1;
+        }
+        else if (listSongs.Items.Contains(e.Name))
+        {
+            listSongs.Items.Remove(e.Name);
+        }
     }
 }

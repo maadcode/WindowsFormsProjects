@@ -41,6 +41,7 @@
             btnSkip = new PictureBox();
             btnBack = new PictureBox();
             progressSong = new MaterialSkin.Controls.MaterialSlider();
+            fileSysWatcher = new FileSystemWatcher();
             ((System.ComponentModel.ISupportInitialize)player).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btnAdjuntar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btnStop).BeginInit();
@@ -49,6 +50,7 @@
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnSkip).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btnBack).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)fileSysWatcher).BeginInit();
             SuspendLayout();
             // 
             // player
@@ -195,6 +197,15 @@
             progressSong.Text = "materialSlider1";
             progressSong.onValueChanged += progressSong_onValueChanged;
             // 
+            // fileSysWatcher
+            // 
+            fileSysWatcher.EnableRaisingEvents = true;
+            fileSysWatcher.Filter = "*.mp3";
+            fileSysWatcher.SynchronizingObject = this;
+            fileSysWatcher.Changed += fileSysWatcher_Changed;
+            fileSysWatcher.Created += fileSysWatcher_Created;
+            fileSysWatcher.Deleted += fileSysWatcher_Deleted;
+            // 
             // Mediaplayer
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -224,6 +235,7 @@
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)btnSkip).EndInit();
             ((System.ComponentModel.ISupportInitialize)btnBack).EndInit();
+            ((System.ComponentModel.ISupportInitialize)fileSysWatcher).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -242,5 +254,6 @@
         private PictureBox btnBack;
         private PictureBox btnSkip;
         private MaterialSkin.Controls.MaterialSlider progressSong;
+        private FileSystemWatcher fileSysWatcher;
     }
 }
