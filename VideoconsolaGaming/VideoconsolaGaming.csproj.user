@@ -4,6 +4,21 @@
     <Compile Update="Ahorcado.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Cars.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ColoredProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Dino.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Menu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SimonSays.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Snake.cs">
       <SubType>Form</SubType>
     </Compile>
