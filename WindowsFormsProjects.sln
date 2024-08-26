@@ -5,11 +5,13 @@ VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicPlayer", "MusicPlayer\MusicPlayer.csproj", "{A8C8FE85-3104-497F-B793-98E93CB4D83E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebBrowser", "WebBrowser\WebBrowser.csproj", "{179F2D23-32DC-4121-AAB8-D5D8691E8734}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebBrowser", "WebBrowser\WebBrowser.csproj", "{179F2D23-32DC-4121-AAB8-D5D8691E8734}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapsNavigation", "MapsNavigation\MapsNavigation.csproj", "{629A9B04-170A-4F17-ACDF-8C5D8EAC6BE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapsNavigation", "MapsNavigation\MapsNavigation.csproj", "{629A9B04-170A-4F17-ACDF-8C5D8EAC6BE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoconsolaGaming", "VideoconsolaGaming\VideoconsolaGaming.csproj", "{7847EF72-A721-40AA-A726-BA7455649D4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoconsolaGaming", "VideoconsolaGaming\VideoconsolaGaming.csproj", "{7847EF72-A721-40AA-A726-BA7455649D4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CameraCapturetor", "CameraCapturetor\CameraCapturetor.csproj", "{7AB61391-7A04-4F54-BFFF-76DBFB3804E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{7847EF72-A721-40AA-A726-BA7455649D4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7847EF72-A721-40AA-A726-BA7455649D4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7847EF72-A721-40AA-A726-BA7455649D4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AB61391-7A04-4F54-BFFF-76DBFB3804E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AB61391-7A04-4F54-BFFF-76DBFB3804E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AB61391-7A04-4F54-BFFF-76DBFB3804E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AB61391-7A04-4F54-BFFF-76DBFB3804E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
